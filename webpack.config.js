@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackplugin = require('html-webpack-plugin')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -11,7 +12,7 @@ module.exports = {
     maxAssetSize: 512000
   },
   
-  devtool: isDevelopment? 'source-map' : 'inline-source-map',
+  devtool: isDevelopment ? 'inline-source-map' : 'source-map',
   entry: path.resolve(__dirname, 'src', 'index.jsx'),
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -22,22 +23,32 @@ module.exports = {
   },
   devServer: {
     static:{
-      directory : path.join(__dirname, 'public')
+      directory : path.join(__dirname, 'public'),
     },
-    hot: true,
+    hot: true
   },
   plugins: [
+    isDevelopment && new ReactRefreshWebpackPlugin({
+      overlay: false
+    }),
     new HtmlWebpackplugin({
       template: path.resolve(__dirname, 'public', 'index.html')
     })
-  ],
+  ].filter(Boolean),
   
   module: {
     rules: [
      {
       test: /\.jsx$/,
       exclude: /node_modules/,
-      use: 'babel-loader'
+      use: {
+        loader: 'babel-loader',
+        options: {
+          plugins: [
+            isDevelopment && require.resolve('react-refresh/babel')
+          ].filter(Boolean)
+        }
+      }
     },
     
     {
