@@ -1,18 +1,19 @@
 const path = require('path')
 const HtmlWebpackplugin = require('html-webpack-plugin')
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const ReactRefrashWebpack = require('@pmmmwh/react-refresh-webpack-plugin')
+
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 module.exports = {
-  mode: isDevelopment ? 'production': 'development',
+  mode: isDevelopment ? 'development': 'production',
   performance: {
     hints: false,
     maxEntrypointSize: 512000,
     maxAssetSize: 512000
   },
   
-  devtool: isDevelopment ? 'inline-source-map' : 'source-map',
+  devtool: isDevelopment ? 'eval-source-map' : 'source-map',
   entry: path.resolve(__dirname, 'src', 'index.jsx'),
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -27,10 +28,9 @@ module.exports = {
     },
     hot: true
   },
+
   plugins: [
-    isDevelopment && new ReactRefreshWebpackPlugin({
-      overlay: false
-    }),
+    isDevelopment && new ReactRefrashWebpack,
     new HtmlWebpackplugin({
       template: path.resolve(__dirname, 'public', 'index.html')
     })
