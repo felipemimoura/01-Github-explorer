@@ -15,13 +15,13 @@ module.exports = {
   
   devtool: isDevelopment ? 'eval-source-map' : 'source-map',
 
-  entry: path.resolve(__dirname, 'src', 'index.tsx'),
+  entry: path.resolve(__dirname, './src/index.tsx'),
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', 'tsx']
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   devServer: {
     static:{
